@@ -3,7 +3,7 @@ const db = require("../models");
 
 // creating a new workout
 router.post("/api/workouts", ({ body }, res) => {
-  db.Workout.create(body).then((dbworkout) => {
+  db.Workout.create(body).then(dbworkout => {
     res.json(dbworkout);
   });
 });
@@ -20,8 +20,20 @@ router.put("/api/workouts/:id", (req, res) => {
 
 // previous workout
 router.get("/api/workouts", (req, res) => {
-  db.Workout.find({}).then((dbworkout) => {
+  db.Workout.find({}).then(dbworkout => {
     res.json(dbworkout);
   });
 });
 
+// last seven workouts
+router.get("/api/workouts/range",(req,res) => {
+    db.Workout.find({})
+    .sort({_id: -1})
+    .limit(7)
+    .then(dbworkout => {
+        res.json(dbworkout);
+        console.log(dbworkout);
+    });
+});
+
+module.exports = router;
